@@ -1,0 +1,250 @@
+html,body{
+	width : 100%;
+	height: 100%;
+}
+*{
+	padding: 0;
+	margin : 0; 
+}
+body{
+	background: #f0f0f0;
+}
+a{
+	 color: #ffffff;
+	 text-decoration: none;
+ }
+ul li{
+	list-style: none;
+}
+/*以上css可不用，仅作为展示外观样式*/
+.logo{
+	position: fixed;
+	top:0;
+	left: 0;
+	width: 15%;
+	height: 50px;
+	z-index: 12;
+	border-bottom:#5b5b5b solid 1px;
+}
+.logo img{
+	width: 16%;
+	height:85%;
+	position: relative;
+	top: 4px;
+	left: 2%;
+}
+
+.logo p{
+	color: #e9f2ff;
+	position: relative;
+	top: -55%;
+	left: 20%;
+}
+/*-------------以上是logo-------------*/
+.top{
+	width: 100%;
+	height: 50px;
+	background: #293c55;
+	position: fixed;
+	z-index: 10;
+}
+.top h1{
+	color: #e9f2ff;
+	font-size: 14px;
+	position: absolute;
+	right: 2%;
+	top: 2%;
+}
+.top h2{
+	color: #e9f2ff;
+	font-size: 14px;
+	position: absolute;
+	right: 6%;
+	top: 1%;
+}
+.top a{
+	color: #e9f2ff;
+	border: none;
+	text-decoration: none;
+}
+.top a:hover{
+	color: #ffffff;
+	background: #ffffff;
+}
+/*-----------以上是头部----------------*/
+.sort{
+	position: absolute;
+	top: 10%;
+	left:60%;
+	width: 8%;
+	height: 40px;
+	font-size: 16px;
+	z-index: 10;
+}
+.sort1{
+	position: absolute;
+	top: 10%;
+	left:69%;
+	width: 8%;
+	height: 40px;
+	font-size: 16px;
+}
+.title{
+	margin: 0 ;
+}
+a{
+	color: #ffffff;
+}
+a:hover{
+	text-decoration: none;
+}
+.list{
+	width : 10%;
+	height: 860px;
+	background: #293c55;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+a img{
+	width:25%;
+	height: 55%;
+	margin-right: 10px;
+}
+.list a{
+	margin-right: 20px;
+}
+.list ul{
+	position: relative;
+	top: 5.8%;
+}
+.list>ul>li{
+	width        : 100%;
+	transition: .3s ease;
+}
+.list>ul>li p[class=title]{
+	width      : 100%;
+	text-align : center;
+	background : #293c55;
+	height     : 70px;
+	line-height: 70px;
+	padding    : 0;
+	border     : none;
+	position   : relative;
+	font-size  : 15px ;
+}
+.list>ul>li p[class=title]>span{
+	position: absolute;
+	right: 10%;
+}
+.list-se{
+	overflow: hidden;
+	display: none;
+}
+.list-se>p{
+	background: #ffffff !important;
+	color:#293c55;
+}
+.list-se>li{
+	position: relative;
+	right   : -100%;
+	transition        : right .5s;
+}
+.list-se>li>p{
+	background: #ffffff;
+	color: #293c55;
+	height: 60px;
+	-webkit-box-sizing :border-box;
+	box-sizing :border-box;
+	padding-left: 10px;
+	line-height : 50px;
+	border-left : 5px solid #293c55;
+}
+.list-se a{
+	color: #293c55;
+}
+.list a:hover{
+	color: #f0f0f0;
+	text-decoration: none;
+}
+.list-se li a:hover{
+	color: #2a6496;
+	text-decoration: none;
+}
+.list-se p a:hover{
+	color: #2a6496;
+	text-decoration: none;
+}
+.list-se p{
+	margin-top: -10px;
+}
+.top h1{
+	color: #e9f2ff;
+	font-size: 18px;
+	position: absolute;
+	right: 2%;
+	top: -10%;
+}
+.top h2{
+	color: #e9f2ff;
+	font-size: 18px;
+	position: absolute;
+	right: 6%;
+	top:-10%;
+}
+.top a{
+	color: #e9f2ff;
+	border: none;
+}
+.top a:hover{
+	color: #293c55;
+	background: #ffffff;
+}
+/*---------------以上是左侧边栏-------------------*/
+.time{
+	width: 12%;
+	height: 40px;
+	background: #293c55;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+}
+.time_one{
+	width: 12%;
+	height: 40px;
+	background: #293c55;
+	position: absolute;
+	top: 10%;
+	left: 45%;
+}
+.an{
+	position: absolute;
+	top: 11%;
+	left: 20%;
+}
+#go{
+	width: 8%;
+	height: 40px;
+	position: absolute;
+	top: 10%;
+	left: 78%;
+}
+.container{
+	width: 20%;
+	
+}
+.storename{
+	position: absolute;
+	top: 11%;
+	left:55%;
+	width: 8%;
+	height: 40px;
+	z-index: 10;
+}
+.selectstore{
+	position: absolute;
+	top: 10%;
+	left:63%;
+	width: 8%;
+	height: 40px;
+}

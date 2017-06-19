@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script src="js/style.js"></script>
+    <script>
+        var options = {
+            weekStart : 1,
+            todayBtn : 1,
+            autoclose : 1,
+            todayHighlight : 1,
+            startView : 2,
+            minView : 2,
+            language : 'zh-CN',
+            format : 'dd/MM/yyyy',
+            forceParse : 0
+        }
+
+        $(function(){
+            jQuery(document).ready(function($)
+            {
+                $('.list ul li p').clickdown();
+                $('.list-se p[class=title]').clickup();
+                $('.list>ul>li').ad();
+            });
+
+            options.minView=4;
+            options.startView=4;
+            options.format="yyyy";
+            $('#s1>input[name = begin ]').datetimepicker(options);
+            $('#s1>input[name = end ]').datetimepicker(options);
+            /*月日期选项   */
+            options.minView=3;
+            options.startView=3;
+            options.format="yyyy/MM";
+            $('#s2>input[name = begin ]').datetimepicker(options);
+            $('#s2>input[name = end ]').datetimepicker(options);
+            /*日日期选项   */
+            options.minView=2;
+            options.startView=2;
+            options.format="yyyy/MM/dd";
+            $('#s3>input[name = begin ]').datetimepicker(options);
+            $('#s3>input[name = end ]').datetimepicker(options);
+
+            var begin;
+            var end;
+            $('#s1>input[name = begin ]').datetimepicker().on('changeYear',
+                    function(ev) {
+                        end = ev.date;
+                    });
+            $('#s1>input[name = end ]').datetimepicker().on('changeYear',
+                    function(ev) {
+                        alert(ev.date);
+                        end = ev.date;
+                    });
+            $('#s2>input[name = begin ]').datetimepicker().on('changeMonth',
+                    function(ev) {
+                        alert(ev.date);
+                        end = ev.date;
+                    });
+            $('#s2>input[name = end ]').datetimepicker().on('changeMonth',
+                    function(ev) {
+                        end = ev.date;
+                    });
+            $('#s3>input[name = begin ]').datetimepicker().on('changeDate',
+                    function(ev) {
+                        end = ev.date;
+                    });
+            $('#s3>input[name = end ]').datetimepicker().on('changeDate',
+                    function(ev) {
+                        end = ev.date;
+                    });
+
+            $("input[name='type']").change(function() {
+                var type = $("input[name='type']:checked").val();
+                if (type == "YEAR") {
+                    $("#s1").removeAttr("hidden");
+                    $("#s2").attr("hidden",true);
+                    $("#s3").attr("hidden",true);
+                }
+                if (type == "MONTH") {
+                    $("#s2").removeAttr("hidden");
+                    $("#s1").attr("hidden",true);
+                    $("#s3").attr("hidden",true);
+                }
+                if (type == "DAY") {
+                    $("#s3").removeAttr("hidden");
+                    $("#s2").attr("hidden",true);
+                    $("#s1").attr("hidden",true);
+                }
+            });
+
+
+
+        });
+
+    </script>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    a{
+        color: #ffffff;
+        text-decoration: none;
+    }
+</style>
+<body>
+<div class="logo">
+    <img src="img/logo.png">
+    <p>BUY QUICKLY</p>
+</div>
+<div class="top">
+    <h1><a href="#" style="text-decoration: none;">退出</a></h1>
+    <h2><a href="#" style="text-decoration: none;">mr.sy.g</a></h2>
+</div>
+<!-- .list以下（包含.list）以下为本插件内容-->
+<div class="list">
+    <ul>
+        <li>
+            <p class="title"><a href="index.html">
+                <img src="img/首页.png">
+                整体销售</a></p>
+        </li>
+        <li>
+
+            <p class="title"><a href="店铺销售.html">
+                <img src="img/店铺销售.png">店铺销售</a></p>
+        </li>
+        <li class="list-see">
+
+            <p class="title"><a href="行业大盘.html">
+                <img src="img/市场行情.png">
+                市场行情</a><span style="color: #ffffff;z-index: 10">+</span></p>
+            <ul class='list-se' style="padding-top:10px;">
+                <p class="title" style="color: #e9f2ff"><a href="行业大盘.html">市场行情</a><span style="color: #2a6496;z-index: 10">-</span></p>
+                <li><p><a href="行业大盘.html">行业大盘</a></p></li>
+                <li><p><a href="TOP店铺.html">TOP店铺</a></p></li>
+                <li><p><a href="TOP品牌.html">TOP品牌</a></p></li>
+            </ul>
+        </li>
+        <li>
+            <p class="title"><a href="店铺分析（运营）.html">
+                <img src="img/店铺分析.png">
+                店铺分析</a><span style="color: #ffffff;z-index: 10">+</span></p>
+            <ul class='list-se'>
+                <p class="title" style="color: #e9f2ff"><a href="店铺分析（运营）.html">店铺分析</a><span style="color: #2a6496;z-index: 10">-</span></p>
+                <li><p><a href="店铺分析（运营）.html">运营</a></p></li>
+                <li><p><a href="粉丝.html">粉丝</a></p></li>
+            </ul>
+        </li>
+        <li>
+            <p class="title" style="background: #c12e2a;"><a href="商品分析.html" style="color:#ffffff">
+                <img src="img/商品分析.png">
+                商品分析</a></p>
+        </li>
+        <li>
+            <p class="title"><a href="#">
+                <img src="img/数据填报.png">
+                数据填报</a></p>
+        </li>
+    </ul>
+</div>
+<select class="sort">
+    <option>箱包</option>
+    <option>鞋履</option>
+    <option>服饰</option>
+    <option>天猫国际</option>
+</select>
+<select class="sort1">
+    <option>箱包</option>
+    <option>鞋履</option>
+</select>
+<!------
+
+------------------->
+<div class="container">
+    <form action="" class="form-horizontal"  role="form">
+
+        <div id = "ff" style="position: absolute;top: 10%;left: 28%;width: 40%">
+            <div id="s1" hidden='true'>
+                <input name="begin"style="height: 40px;width: 30%"/> <input name="end" style="height: 40px;width: 30%"/>
+            </div>
+
+            <div id="s2" hidden='true'>
+                <input name="begin"style="height: 40px;width: 30%" /> <input name="end"style="height: 40px;width: 30%" />
+            </div>
+
+            <div id="s3">
+                <input name="begin"style="height: 40px;width: 30%" /> <input name="end" style="height: 40px;width: 30%" />
+            </div>
+
+        </div>
+    </form>
+    <div class="an" style="position: absolute;left: 15%">
+        <input type="radio" name="type" value="YEAR" />y
+        <input type="radio" name="type" value="MONTH" /> m
+        <input type="radio" name="type" value="DAY" /> d
+    </div>
+
+</div>
+<input type="button" id="go" value="查询" onclick="settime(this)" />
+<!--------以下数据框----------->
+<div class="content_top" style="width: 100px; height: 200px;background: #898989;position: absolute;top: 25%;left: 20%">
+</div>
+<div class="content_bottom" style="width: 100px; height: 200px;background: #ffffff;position: absolute;top: 50%;left: 20%">
+</div>
+<div class="contentl" style="width: 45%; height: 400px; position: relative;top: 25%;left: 26.2%; background: #5b5b5b">
+</div>
+
+</body>
+</html>

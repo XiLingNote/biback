@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bi.baiqiu.mapper.JdpFxTradeMapper">
+
+	<!-- 查询最早日期-->
+	<select id="selectMinDate"  resultType="Date">
+		SELECT MIN(jdp_modified) FROM jdp_fx_trade;
+	</select>
+	
+</mapper>

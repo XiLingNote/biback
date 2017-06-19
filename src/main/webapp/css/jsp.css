@@ -1,0 +1,35 @@
+.view {
+	position: absolute;
+	top: 20%;
+	left: 15%;
+	width: 100%;
+	height: 10%;
+	font-size: 16px;
+}
+.salesTrendDiv {
+	border-color: black;
+	float: left;
+	top: 20%;
+	left: 23%;
+	width: 20%;
+	height: 100%;
+	background-color: #615e5f;
+}
+.topStoreDiv {
+	border-color: black;
+	float: left;
+	top: 20%;
+	left: 23%;
+	width: 30%;
+	height: 100%;
+	background-color: #615e5f;
+}
+
+.span {
+	color: #FFF8DC;
+}
+
+body {
+	/* background: #f0f0f0; */
+}
+
