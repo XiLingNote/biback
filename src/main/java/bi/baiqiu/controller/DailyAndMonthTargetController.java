@@ -3,7 +3,10 @@ package bi.baiqiu.controller;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +33,7 @@ import bi.baiqiu.pojo.DailyTarget;
 import bi.baiqiu.pojo.GoalMonthAlip;
 import bi.baiqiu.pojo.GoalMonthsale;
 import bi.baiqiu.service.DailyTargetService;
+import bi.baiqiu.utils.ExportExcelUtils;
 import bi.baiqiu.utils.ImportExcelUtils;
 
 @Controller
@@ -60,11 +64,16 @@ public class DailyAndMonthTargetController extends BaseController {
 	@RequestMapping(value = "queryDailyTarget.do")
 	public void queryDailyTarget(DailyTarget dailyTarget, PageBean page, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		Date date = new Date();
+
+	
 		response.setCharacterEncoding("utf-8");
-		List<DailyTarget> dailyTargets =dailyTargetDao.queryDailyTarget(dailyTarget, page);
+		List<DailyTarget> dailyTargets = dailyTargetDao.queryDailyTarget(dailyTarget, page);
 		Gson gson = new GsonBuilder().serializeNulls().create();
-		 String json = "{\"total\":" + page.getTotal() + ",\"rows\":" + gson.toJson(dailyTargets) + "}";  
-	        response.getWriter().print(json);  
+		String json = "{\"total\":" + page.getTotal() + ",\"rows\":" + gson.toJson(dailyTargets) + "}";
+		response.getWriter().print(json);
+		Date date1 = new Date();
+		log.info("--------------------生成时间-------------------------------"+(date1.getTime()-date.getTime()));
 	}
 
 	/**
@@ -76,7 +85,7 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(params = "queryDailyTargetNopage", method = RequestMethod.POST)
+	@RequestMapping(value = "queryDailyTargetNopage.do", method = RequestMethod.POST)
 	public void queryDailyTargetNoPage(DailyTarget dailyTarget, RowBounds rowBounds, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		dailyTargetDao.selectByRowBounds(dailyTarget, rowBounds);
@@ -90,7 +99,7 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(params = "insertDailyTarget", method = RequestMethod.POST)
+	@RequestMapping(value = "insertDailyTarget.do", method = RequestMethod.POST)
 	public void insertDailyTarget(DailyTarget dailyTarget, HttpServletRequest request, HttpServletResponse response) {
 
 		try {
@@ -110,7 +119,7 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(params = "insertDailyTargetByBatch", method = RequestMethod.POST)
+	@RequestMapping(value = "insertDailyTargetByBatch.do", method = RequestMethod.POST)
 	public void insertDailyTargetByBatch(List<DailyTarget> dailyTargetList, HttpServletRequest request,
 			HttpServletResponse response) {
 		int num = 0;
@@ -132,10 +141,14 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(params = "updateDailyTarget", method = RequestMethod.POST)
-	public void updateDailyTarget(DailyTarget dailyTarget, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		dailyTargetDao.updateByPrimaryKey(dailyTarget);
+	@RequestMapping(value = "updateDailyTarget.do", method = RequestMethod.POST)
+	public void updateDailyTarget(DailyTarget dailyTarget, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			dailyTargetDao.updateByPrimaryKey(dailyTarget);
+		} catch (Exception e) {
+			WriteMsg(response, "重复计划");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -146,13 +159,15 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(params = "deleteDailyTarget", method = RequestMethod.POST)
+	@RequestMapping(value = "deleteDailyTarget", method = RequestMethod.POST)
 	public void deleteDailyTarget(DailyTarget dailyTarget, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		dailyTargetDao.delete(dailyTarget);
 	}
 
-	/**日计划上传
+	/**
+	 * 日计划上传
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws Exception
@@ -160,7 +175,7 @@ public class DailyAndMonthTargetController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "uploadDailyTarget.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public void uploadDailyTarget(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//上传文件用
+		// 上传文件用
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
 		System.out.println("通过 jquery.form.js 提供的ajax方式上传文件！");
@@ -174,43 +189,70 @@ public class DailyAndMonthTargetController extends BaseController {
 
 		in = file.getInputStream();
 		listob = new ImportExcelUtils().getBankListByExcel(in, file.getOriginalFilename());
-		List<DailyTarget> dailyTargets=new ArrayList<DailyTarget>();	
+		List<DailyTarget> dailyTargets = new ArrayList<DailyTarget>();
 		for (int i = 0; i < listob.size(); i++) {
-				List<Object> lo = listob.get(i);
-				DailyTarget dailyTarget=new DailyTarget();
-				dailyTarget.setId(Integer.valueOf(String.valueOf(lo.get(0))));
-				dailyTarget.setStorename(String.valueOf(1));//店铺名称
-				dailyTarget.setDate(String.valueOf(lo.get(2)));//日期
-				dailyTarget.setPayment(String.valueOf(lo.get(3)));//计划量
-				dailyTargets.add(dailyTarget);
-			}
+			List<Object> lo = listob.get(i);
+			DailyTarget dailyTarget = new DailyTarget();
+			dailyTarget.setId(Integer.valueOf(String.valueOf(lo.get(0))));
+			dailyTarget.setStorename(String.valueOf(1));// 店铺名称
+			dailyTarget.setDate(String.valueOf(lo.get(2)));// 日期
+			dailyTarget.setPayment(String.valueOf(lo.get(3)));// 计划量
+			dailyTargets.add(dailyTarget);
+		}
+		dailyTargetService.insertDailyTargetByBatch(dailyTargets);
 		in.close();
 		log.info(dailyTargets);
-		WriteObject(response,dailyTargets);	
+		WriteObject(response, dailyTargets);
 		// 该处可调用service相应方法进行数据保存到数据库中，现只对数据输出
-		/*for (int i = 0; i < listob.size(); i++) {
-			List<Object> lo = listob.get(i);
-			InfoVo vo = new InfoVo();
-			vo.setCode(String.valueOf(lo.get(0)));
-			vo.setName(String.valueOf(lo.get(1)));
-			vo.setDate(String.valueOf(lo.get(2)));
-			vo.setMoney(String.valueOf(lo.get(3)));
-
-			System.out.println("打印信息-->机构:" + vo.getCode() + "  名称：" + vo.getName() + "   时间：" + vo.getDate() + "   资产："
-					+ vo.getMoney());
-		}
-
-		PrintWriter out = null;
-		response.setCharacterEncoding("utf-8"); // 防止ajax接受到的中文信息乱码
-		out = response.getWriter();
-		out.print("文件导入成功！");
-		out.flush();
-		out.close();*/
+		/*
+		 * for (int i = 0; i < listob.size(); i++) { List<Object> lo =
+		 * listob.get(i); InfoVo vo = new InfoVo();
+		 * vo.setCode(String.valueOf(lo.get(0)));
+		 * vo.setName(String.valueOf(lo.get(1)));
+		 * vo.setDate(String.valueOf(lo.get(2)));
+		 * vo.setMoney(String.valueOf(lo.get(3)));
+		 * 
+		 * System.out.println("打印信息-->机构:" + vo.getCode() + "  名称：" +
+		 * vo.getName() + "   时间：" + vo.getDate() + "   资产：" + vo.getMoney()); }
+		 * 
+		 * PrintWriter out = null; response.setCharacterEncoding("utf-8"); //
+		 * 防止ajax接受到的中文信息乱码 out = response.getWriter(); out.print("文件导入成功！");
+		 * out.flush(); out.close();
+		 */
 	}
 
-	
-	
-	
+	/**
+	 * 日计划导出
+	 * 
+	 * @param dailyTarget
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "exportDailyTarget.do", method = RequestMethod.POST)
+	public void exportDailyTarget(DailyTarget dailyTarget, PageBean page, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("--------------------导出-------------------------------");
+		ExportExcelUtils util = new ExportExcelUtils();
+		page.setMeToDefault();
+		Date date = new Date();
+		String path = "C:";
+		String fileName = date.getTime() + ".xlsx";
+		util.init_Excel(path, fileName, new String[] { "id", "店铺", "时间", "目标计划数" });
+		String[] dailyfiles = new String[] { "id", "storename", "date", "payment" };// 对象的属性名字
+		List<Object> dailys = new ArrayList<>();
+		dailys.addAll(dailyTargetDao.queryDailyTarget(dailyTarget, page));
+		util.write_data_Excel(dailys, dailyfiles);
+		util.write_excel_disk();
+		Date date1 = new Date();
+
+		util.downLoad(path+fileName,response,false);
+		Date date2 = new Date();
+		log.info("--------------------生成时间-------------------------------"+(date1.getTime()-date.getTime()));
+		log.info("--------------------导出时间-------------------------------"+(date2.getTime()-date1.getTime()));
+
+	}
+
 	/**
 	 * alipay月度计划
 	 * 
@@ -218,19 +260,19 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(params = "insertGoalMonthAlip", method = RequestMethod.POST)
+	@RequestMapping(value = "insertGoalMonthAlip", method = RequestMethod.POST)
 	public void insertGoalMonthAlip(GoalMonthAlip goalMonthAlip, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthAlipDao.insert(goalMonthAlip);
 	}
 
-	@RequestMapping(params = "updateGoalMonthAlip", method = RequestMethod.POST)
+	@RequestMapping(value = "updateGoalMonthAlip", method = RequestMethod.POST)
 	public void updateGoalMonthAlip(GoalMonthAlip goalMonthAlip, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthAlipDao.updateByPrimaryKey(goalMonthAlip);
 	}
 
-	@RequestMapping(params = "deleteGoalMonthAlip", method = RequestMethod.POST)
+	@RequestMapping(value = "deleteGoalMonthAlip", method = RequestMethod.POST)
 	public void deleteGoalMonthAlip(GoalMonthAlip goalMonthAlip, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthAlipDao.delete(goalMonthAlip);
@@ -243,20 +285,20 @@ public class DailyAndMonthTargetController extends BaseController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(params = "insertGoalMonthSale", method = RequestMethod.POST)
+	@RequestMapping(value = "insertGoalMonthSale", method = RequestMethod.POST)
 	public void insertGoalMonthSale(GoalMonthsale goalMonthsale, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthSaleDao.insert(goalMonthsale);
 	}
 
-	@RequestMapping(params = "updateGoalMonthSale", method = RequestMethod.POST)
+	@RequestMapping(value = "updateGoalMonthSale", method = RequestMethod.POST)
 
 	public void updateGoalMonthSale(GoalMonthsale goalMonthsale, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthSaleDao.updateByPrimaryKey(goalMonthsale);
 	}
 
-	@RequestMapping(params = "deleteGoalMonthSale", method = RequestMethod.POST)
+	@RequestMapping(value = "deleteGoalMonthSale", method = RequestMethod.POST)
 	public void deleteGoalMonthSale(GoalMonthsale goalMonthsale, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		goalMonthSaleDao.delete(goalMonthsale);

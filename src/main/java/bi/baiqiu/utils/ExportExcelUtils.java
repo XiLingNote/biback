@@ -4,16 +4,22 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -52,7 +58,6 @@ public class ExportExcelUtils {
 		wb = new SXSSFWorkbook(1000);// 内存中保留 10000 条数据，以免内存溢出，其余写入 硬盘
 		sheet = wb.createSheet(String.valueOf("sheet"));
 		wb.setSheetName(0, "sheet");
-		sheet.autoSizeColumn(1);
 		Row row = sheet.createRow(countRow++);
 		for (int i = 0; i < fieldNames.length; i++) {
 			Cell cell = row.createCell(i);
@@ -179,4 +184,61 @@ public class ExportExcelUtils {
 		wb.write(output);
 		output.close();
 	}
+	//文件下载
+	public void downLoad(String filePath, HttpServletResponse response,  
+            boolean isOnLine) throws Exception {  
+        File f = new File(filePath);  
+        /*  
+         * if (!f.exists()) { response.sendError(404, "File not found!");  
+         * return; }  
+         */  
+        BufferedInputStream br = new BufferedInputStream(new FileInputStream(f));  
+        byte[] buf = new byte[1024];  
+        int len = 0;  
+        response.reset(); // 非常重要  
+        // 在线打开方式  
+        if (isOnLine) {  
+            URL u = new URL(filePath);  
+            response.setContentType(u.openConnection().getContentType());  
+            response.setHeader("Content-Disposition", "inline; filename="  
+                    + toUTF8(f.getName()));  
+            // 文件名应该编码成UTF-8  
+        }  
+        // 纯下载方式  
+        else {  
+            response.setContentType("application/x-msdownload");  
+            response.setHeader("Content-Disposition", "attachment; filename="  
+                    + toUTF8(f.getName()));  
+        }  
+        OutputStream out = response.getOutputStream();  
+        while ((len = br.read(buf)) > 0)  
+            out.write(buf, 0, len);  
+        out.flush();  
+        br.close();  
+        out.close();  
+    } 
+	  public String toUTF8(String s) {  
+	        StringBuffer sb = new StringBuffer();  
+	        for (int i = 0; i < s.length(); i++) {  
+	            char c = s.charAt(i);  
+	            if (c >= 0 && c <= 255) {  
+	                sb.append(c);  
+	            } else {  
+	                byte[] b;  
+	                try {  
+	                    b = Character.toString(c).getBytes("utf-8");  
+	                } catch (Exception ex) {  
+	                    System.out.println(ex);  
+	                    b = new byte[0];  
+	                }  
+	                for (int j = 0; j < b.length; j++) {  
+	                    int k = b[j];  
+	                    if (k < 0)  
+	                        k += 256;  
+	                    sb.append("%" + Integer.toHexString(k).toUpperCase());  
+	                }  
+	            }  
+	        }  
+	        return sb.toString();  
+	    } 
 }

@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "storename": "cpu旗舰",
+        "date": "2017-03-01",
+        "payment": "40000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 2,
+        "storename": "cpu旗舰",
+        "date": "2017-03-02",
+        "payment": "40000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 3,
+        "storename": "cpu旗舰",
+        "date": "2017-03-03",
+        "payment": "25000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 4,
+        "storename": "cpu旗舰",
+        "date": "2017-03-04",
+        "payment": "25000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 5,
+        "storename": "cpu旗舰",
+        "date": "2017-03-05",
+        "payment": "25000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 6,
+        "storename": "cpu旗舰",
+        "date": "2017-03-06",
+        "payment": "2200000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 7,
+        "storename": "cpu旗舰",
+        "date": "2017-03-07",
+        "payment": "350000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 8,
+        "storename": "cpu旗舰",
+        "date": "2017-03-08",
+        "payment": "220000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 9,
+        "storename": "cpu旗舰",
+        "date": "2017-03-09",
+        "payment": "150000",
+        "startDate": null,
+        "endDate": null
+    },
+    {
+        "id": 10,
+        "storename": "cpu旗舰",
+        "date": "2017-03-10",
+        "payment": "80000",
+        "startDate": null,
+        "endDate": null
+    }
+]
