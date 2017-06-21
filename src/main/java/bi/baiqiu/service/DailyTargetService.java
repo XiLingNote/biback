@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import bi.baiqiu.mapper.DailyTargetDao;
+import bi.baiqiu.mapper.DailyTargetMapper;
 import bi.baiqiu.pojo.DailyTarget;
 @Transactional
 @Service
 public class DailyTargetService {
 		@Autowired
-		private DailyTargetDao dailyTargetDao;
+		private DailyTargetMapper dailyTargetDao;
 		
 		/**插入单条日计划
 		 * @param dailyTarget

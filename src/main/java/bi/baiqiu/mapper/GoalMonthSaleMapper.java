@@ -8,6 +8,6 @@ import com.github.abel533.mapper.Mapper;
 import bi.baiqiu.pojo.DailyTarget;
 import bi.baiqiu.pojo.GoalMonthsale;
 
-public interface GoalMonthSaleDao extends Mapper<GoalMonthsale>{
+public interface GoalMonthSaleMapper extends Mapper<GoalMonthsale>{
 	List<GoalMonthsale> queryGoalMonthAlip();
 }
